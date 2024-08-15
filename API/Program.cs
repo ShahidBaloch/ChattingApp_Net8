@@ -1,22 +1,22 @@
 using API.Data;
-using Microsoft.EntityFrameworkCore;
+using API.Extensions;
+using API.Interfaces;
+using API.Services;
+using System.Text;
 
-var builder = WebApplication.CreateBuilder(args);
+var services = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+services.Services.AddApplicationServics(services.Configuration);
+services.Services.AddIdentityServices(services.Configuration);
 
-//Scoped Life time for AddDbContext
-builder.Services.AddDbContext<DataContext>(opt =>
-{
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-builder.Services.AddCors();
-var app = builder.Build();
+var app = services.Build();
 
 // Configure the HTTP request pipeline.
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200"));
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
