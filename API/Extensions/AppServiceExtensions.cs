@@ -7,7 +7,7 @@ namespace API.Extensions
 {
     public static class AppServiceExtensions
     {
-        public static IServiceCollection AddApplicationServics(this IServiceCollection services,IConfiguration config)
+        public static IServiceCollection AddApplicationServics(this IServiceCollection services, IConfiguration config)
         {
             services.AddControllers();
 
