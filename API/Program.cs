@@ -1,8 +1,7 @@
-using API.Data;
+
 using API.Extensions;
-using API.Interfaces;
-using API.Services;
-using System.Text;
+using API.Middleware;
+
 
 var services = WebApplication.CreateBuilder(args);
 
@@ -12,7 +11,8 @@ services.Services.AddApplicationServics(services.Configuration);
 services.Services.AddIdentityServices(services.Configuration);
 
 var app = services.Build();
-
+//custom middleware
+app.UseMiddleware<ExceptionMiddleware>();
 // Configure the HTTP request pipeline.
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200"));
 app.UseAuthentication();
